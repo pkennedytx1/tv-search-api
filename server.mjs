@@ -1,13 +1,27 @@
 import express from 'express'
 import bodyParser from 'body-parser';
+import cors from 'cors'
+import dotenv from 'dotenv'
 const app = express();
 const PORT = 3000;
 import db from './db.mjs'
+import customMiddleWare from './middleware/exampleMiddleWare.mjs';
 
+// Configure dotenv
+dotenv.config()
+
+// Connect to MongoDB Container
+db.connect()
+
+// Global Middleware
+app.use(cors({
+    origin: 'https://example.com'
+}))
 app.use(bodyParser.json())
 
-app.get('/', (req, res) => {
-    res.send('Howdy Hey!');
+// Route Handlers
+app.get('/', customMiddleWare, (req, res, next) => {
+    res.send('Howdy Hey!')
 })
 
 app.post('/people', async (req, res) => {
