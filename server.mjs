@@ -6,12 +6,13 @@ const app = express();
 const PORT = 3000;
 import db from './db.mjs'
 import customMiddleWare from './middleware/exampleMiddleWare.mjs';
+import { UserController } from './entities/user/user.controller.mjs';
 
 // Configure dotenv
 dotenv.config()
 
-// Connect to MongoDB Container
-db.connect()
+// Initialize Collection Classes
+const userController = new UserController();
 
 // Global Middleware
 app.use(cors({
@@ -22,6 +23,11 @@ app.use(bodyParser.json())
 // Route Handlers
 app.get('/', customMiddleWare, (req, res, next) => {
     res.send('Howdy Hey!')
+})
+
+app.post('/signup', async (req, res) => {
+    const response = await userController.signup(req.body.user)
+    res.send(JSON.stringify(response))
 })
 
 app.post('/people', async (req, res) => {
