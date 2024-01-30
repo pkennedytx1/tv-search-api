@@ -17,7 +17,7 @@ export class UserService {
         const errors = await this.validateUser(user);
         if (Object.keys(errors).length === 0) {
             const response = this.userRepository.signup(user)
-            return 'User Created'
+            return response
         }
         return { errors }
     }
