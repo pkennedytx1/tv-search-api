@@ -33,7 +33,7 @@ app.post('/signup', async (req, res) => {
 
 app.post('/login', async (req, res) => {
     const response = await userController.login(req.body.user)
-    res.send(JSON.stringify('response'))
+    res.send(JSON.stringify(response))
 })
 
 app.get('/myfavs', authorizeRequest, (req, res) => {

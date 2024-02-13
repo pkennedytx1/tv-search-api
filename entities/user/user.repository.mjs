@@ -40,10 +40,10 @@ export class UserRepository {
             if (!dbUser) {
                 throw new Error('User does not exist');
             }
-            if (!this.salt) {
-                this.salt = await bcrypt.genSalt(10)
-            }
-            user.password = await bcrypt.hash(user.password, this.salt)
+            // if (!this.salt) {
+            //     this.salt = await bcrypt.genSalt(10)
+            // }
+            // user.password = await bcrypt.hash(user.password, this.salt)
             console.log(user.password)
             const isMatch = await bcrypt.compare(user.password, dbUser.password);
             if (!isMatch) {
