@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors'
 import dotenv from 'dotenv'
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 import db from './db.mjs'
 import customMiddleWare from './middleware/exampleMiddleWare.mjs';
 import { UserController } from './entities/user/user.controller.mjs';
@@ -17,13 +17,13 @@ const userController = new UserController();
 
 // Global Middleware
 app.use(cors({
-    origin: 'https://example.com'
+    origin: ['http://localhost:3000']
 }))
 app.use(bodyParser.json())
 
 // Route Handlers
 app.get('/', customMiddleWare, (req, res, next) => {
-    res.send('Howdy Hey!')
+    res.send('Howdy hey welcome to the Tv-Search-Api!')
 })
 
 app.post('/signup', async (req, res) => {
@@ -31,21 +31,14 @@ app.post('/signup', async (req, res) => {
     res.send(JSON.stringify(response))
 })
 
+app.post('/login', async (req, res) => {
+    const response = await userController.login(req.body.user)
+    res.send(JSON.stringify('response'))
+})
+
 app.get('/myfavs', authorizeRequest, (req, res) => {
+    console.log('My Favorites')
     res.send('My favs will go here')
-})
-
-app.post('/people', async (req, res) => {
-    db.data.people.push(req.body.name)
-    await db.write()
-    res.sendStatus(200)
-})
-
-app.get('/lambda', async (req, res) => {
-    const response = await axios.get('https://j2n7icqx33hogcd32i2padguou0xaawd.lambda-url.us-east-2.on.aws/')
-    const data = response.data
-    console.log(data)
-    res.send('triggered lambda');
 })
 
 app.listen(PORT, () => {

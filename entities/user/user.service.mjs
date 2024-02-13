@@ -19,10 +19,11 @@ export class UserService {
             const response = this.userRepository.signup(user)
             return response
         }
+        console.log(errors)
         return { errors }
     }
 
     async login(user) {
-
+        return await this.userRepository.login(user);
     }
 }

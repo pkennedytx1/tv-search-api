@@ -7,12 +7,11 @@ export class UserController {
 
     async signup(user) {
         console.log('Controller: signup')
-        const response = await this.userService.signup(user)
-        return response;
+        return await this.userService.signup(user)
     }
 
     async login(user) {
         console.log('Controller: login')
-        // place service call here
+        return await this.userService.login(user);
     }
 }
